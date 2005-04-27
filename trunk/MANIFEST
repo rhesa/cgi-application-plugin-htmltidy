@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/CGI-Application-Plugin-HtmlTidy.t
+lib/CGI/Application/Plugin/HtmlTidy.pm

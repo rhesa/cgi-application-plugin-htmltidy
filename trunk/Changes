@@ -1,0 +1,6 @@
+Revision history for Perl extension CGI::Application::Plugin::HtmlTidy.
+
+0.01  Thu Apr 21 11:48:45 2005
+	- original version; created by h2xs 1.23 with options
+		-XA -b 5.6.0 -n CGI::Application::Plugin::HtmlTidy
+
