@@ -1,16 +1,43 @@
 CGI-Application-Plugin-HtmlTidy version 0.01
 ============================================
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+NAME
+    CGI::Application::Plugin::HtmlTidy - Add HTML::Tidy support to
+    CGI::Application
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+SYNOPSIS
+
+    use CGI::Application::Plugin::HtmlTidy;
+
+    sub cgiapp_postrun {
+        my ($self, $contentref) = @_;
+
+        # your post-process code here
+
+        $self->htmltidy_validate($contentref);
+        # or
+        $self->htmltidy_clean($contentref);
+    }
+
+WARNING
+This is the initial release. I welcome comments and discussion on the
+cgiapp mailinglist. Note that it currently depends on a developer
+release of HTML::Tidy (namely version 1.05_02). I hope to persuade its
+author to promote that release to an official one soon.
+
+DESCRIPTION
+This plugin is a wrapper around HTML::Tidy. It exports two methods that
+allow you to either validate or clean up the output of your cgiapp
+application. They should be called at the end of your postrun method.
+
+The htmltidy_validate method is a helpful addition during development.
+It generates a detailed report specifying the issues with your html.
+
+The htmltidy_clean modifies your output to conform to the W3C standards.
+It has been in use for quite some time on a largish site (generating
+over 100,000 pages per day) and has proven to be quite stable and fast.
+Every single page view was valid html, which makes many browsers happy
+:-)
 
 INSTALLATION
 
@@ -25,13 +52,11 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  blah blah blah
+  CGI::Application, HTML::Tidy
 
 COPYRIGHT AND LICENCE
 
-Put the correct copyright and licence information here.
-
-Copyright (C) 2005 by A. U. Thor
+Copyright (C) 2005 by Rhesa Rozendaal
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.2 or,
