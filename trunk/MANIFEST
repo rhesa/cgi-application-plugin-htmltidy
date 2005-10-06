@@ -12,6 +12,8 @@ t/CleanApp.pm
 t/CleanSubApp.pm
 t/ValidateApp.pm
 t/ValidateSubApp.pm
+t/pod.t
+t/pod-coverage.t
 t/tidy.conf
 lib/CGI/Application/Plugin/HtmlTidy.pm
 lib/CGI/Application/Plugin/HtmlTidy/tidy.conf

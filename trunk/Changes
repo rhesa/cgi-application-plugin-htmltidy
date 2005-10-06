@@ -1,6 +1,10 @@
-Revision history for Perl extension CGI::Application::Plugin::HtmlTidy.
+Revision history for CGI-Application-Plugin-HtmlTidy
 
-0.01  Thu Apr 21 11:48:45 2005
+0.50    2005-10-04  Rhesa Rozendaal <rhesa@cpan.org>
+    - made htmltidy_validate a report generator for CAP::DevPopup
+    - API stable
+
+0.01    Thu Apr 21 11:48:45 2005
 	- original version; created by h2xs 1.23 with options
 		-XA -b 5.6.0 -n CGI::Application::Plugin::HtmlTidy
 

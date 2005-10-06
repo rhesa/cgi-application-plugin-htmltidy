@@ -4,119 +4,120 @@ use 5.006;
 use strict;
 use warnings;
 use Carp;
-use CGI::Application 3.31;
-use HTML::Tidy;
+use CGI::Application 4.01;
+use HTML::Tidy 1.06;
 
 require Exporter;
 our @ISA = qw(Exporter);
 
-our @EXPORT = qw(htmltidy htmltidy_clean htmltidy_validate);
+our @EXPORT = qw(htmltidy htmltidy_clean htmltidy_config);
 
-our $VERSION = '0.01';
+our $VERSION = '0.50';
+
+sub import
+{
+    my $c = scalar caller;
+    $c->add_callback( 'devpopup_report', \&htmltidy_validate ) if $c->can('devpopup');
+    goto &Exporter::import;
+}
 
 sub htmltidy
 {
-	my $self = shift;
-	my $opts =  $self->param('htmltidy_config') || {};
-	htmltidy_config( $self, %$opts ) unless $self->{__PACKAGE__.'OPTIONS'};
-	$self->{__PACKAGE__.'HTMLTIDY'} ||= HTML::Tidy->new($self->{__PACKAGE__.'OPTIONS'});
+    my $self = shift;
+    my $opts = $self->param('htmltidy_config') || {};
+    htmltidy_config( $self, %$opts ) unless $self->{ __PACKAGE__ . 'OPTIONS' };
+    $self->{ __PACKAGE__ . 'HTMLTIDY' } ||= HTML::Tidy->new( $self->{ __PACKAGE__ . 'OPTIONS' } );
 }
 
-sub htmltidy_config {
-	my $self = shift;
-	my %opts = @_;
-	$opts{config_file} ||= __find_config();
-	$opts{action}      ||= 'validate';
-	$self->{__PACKAGE__.'OPTIONS'} = \%opts;
+sub htmltidy_config
+{
+    my $self = shift;
+    my %opts = @_;
+    $opts{config_file} ||= __find_config();
+    $opts{action}      ||= 'validate';
+    $self->{ __PACKAGE__ . 'OPTIONS' } = \%opts;
 }
 
-sub htmltidy_clean {
-	my ($self, $outputref) = @_;
-	return unless __check_header($self);
-	$$outputref = $self->htmltidy->clean($$outputref);
+sub htmltidy_clean
+{
+    my ( $self, $outputref ) = @_;
+    return unless __check_header($self);
+    $$outputref = $self->htmltidy->clean($$outputref);
 }
 
-sub htmltidy_validate {
-	my ($self, $outputref) = @_;
-	return unless __check_header($self);
-	$self->htmltidy->parse('why would i need to pass a file name if it isn\'t used?', $$outputref) or croak "Error parsing document: $@";
-	if($self->htmltidy->messages) {
-		my @msgs;
-		my @output = map { {html=>$_} } split $/, $$outputref;
-		foreach ( $self->htmltidy->messages() ) {
-			push @{$output[$_->line-1]->{messages}},  {
-				type	=> $_->type==TIDY_WARNING ? 'warning' : 'error',
-				line	=> $_->line,
-				column	=> $_->column,
-				text	=> $_->text,
-			};
-		}
-		my $t = $self->load_tmpl(__find_my_path().'/validate.tmpl', die_on_bad_params=>0, cache=>1);
-		$t->param(output=>\@output);
-		$$outputref = $t->output;
-	}
+sub htmltidy_validate
+{
+    my ( $self, $outputref ) = @_;
+    return unless __check_header($self);
+    $self->htmltidy->parse( 'why would i need to pass a file name if it isn\'t used?', $$outputref ) or croak "Error parsing document: $@";
+    if ( $self->htmltidy->messages )
+    {
+        my @msgs;
+        my @output = map { { html => $_ } } split $/, $$outputref;
+        my ($errors, $warnings) = (0,0);
+        foreach ( $self->htmltidy->messages() )
+        {
+            $_->type == TIDY_WARNING ? $warnings++ : $errors++;
+            push @{ $output[ $_->line - 1 ]->{messages} },
+              {
+                type => $_->type == TIDY_WARNING ? 'warning' : 'error',
+                line => $_->line,
+                column => $_->column,
+                text   => $_->text,
+              };
+        }
+        my $t = $self->load_tmpl( __find_my_path() . '/validate.tmpl', die_on_bad_params => 0, cache => 1 );
+        $t->param( output => \@output );
+        $self->devpopup->add_report(
+            title   => 'HTML::Tidy validation report',
+            summary => "$errors errors, $warnings warnings",
+            report  => $t->output
+        );
+    }
+    else
+    {
+        $self->devpopup->add_report(
+            title   => 'HTML::Tidy validation report',
+            summary => "Your HTML is valid!",
+        );
+    }
 }
 
-sub __check_header {
-	my $self = shift;
-	
-	return unless $self->header_type eq 'header'; # don't operate on redirects or 'none'
-	
-	my %props = $self->header_props;
-	my ($type) = grep /type/i, keys %props;
-	
-	return 1 unless defined $type; # no type defaults to html, so we have work to do
-	
-	return $props{$type} =~ /html/i;
+sub __check_header
+{
+    my $self = shift;
+
+    return unless $self->header_type eq 'header';    # don't operate on redirects or 'none'
+
+    my %props = $self->header_props;
+    my ($type) = grep /type/i, keys %props;
+
+    return 1 unless defined $type;                   # no type defaults to html, so we have work to do
+
+    return $props{$type} =~ /html/i;
 }
 
 ### find the config file
 ### 1. see if we can find the package version
 ### 2. fall back to /etc/tidy.conf
-sub __find_config {
-	my $inc = __find_my_path() . '/tidy.conf';
-	return -f $inc ? $inc : '/etc/tidy.conf';
+sub __find_config
+{
+    my $inc = __find_my_path() . '/tidy.conf';
+    return -f $inc ? $inc : '/etc/tidy.conf';
 }
 
-sub __find_my_path {
-	my $inc = $INC{'CGI/Application/Plugin/HtmlTidy.pm'};
-	$inc =~ s!\.pm$!!;
-	return $inc;
+sub __find_my_path
+{
+    my $inc = $INC{'CGI/Application/Plugin/HtmlTidy.pm'};
+    $inc =~ s/\.pm$//;
+    return $inc;
 }
 
 1;
 
 __END__
 
-# design ideas
-#
-# 1. use an after_postrun callback to perform action:
-#   sub cgiapp_postrun {
-#     my ($self, $outputref) = @_;
-#     ...
-#     $self->call_hook('after_postrun', $outputref);
-#   }
-#   
-# 2. possible actions: 
-#	a) validate
-#		this would parse the output, and report any warnings and/or errors.
-#	b) clean
-#		this would tidy up the output. This ensures valid (x)html.
-# 
-# 3. configuration
-#	 this should be done in setup() or in the instance script.
-#	 basic idea:
-#		$self->param(htmltidy_config => {
-#						config_file	=> '/my/tidy.conf',
-#						action		=> 'clean',
-#					});
-#
-# 4. implementation
-#	 because the final action to perform is not known until runtime,
-#	 we just install a generic hook at compile time.
-#	 
-# I'postponing the hook implementation till later. Let's see how this 
-# version is received first.
+=pod
 
 =head1 NAME
 
@@ -131,17 +132,19 @@ CGI::Application::Plugin::HtmlTidy - Add HTML::Tidy support to CGI::Application
 
 	# your post-process code here
 	
-    $self->htmltidy_validate($contentref);
-    # or
     $self->htmltidy_clean($contentref);
   }
 
-=head1 WARNING
+  
+  # generate a validation report
+  use CGI::Application::Plugin::DevPopup;
+  use CGI::Application::Plugin::HtmlTidy;
 
-This is the initial release. I welcome comments and discussion on the cgiapp
-mailinglist. Note that it currently depends on a developer release
-of L<HTML::Tidy> (namely version 1.05_02). I hope to persuade its author to
-promote that release to an official one soon.
+=head1 CHANGES
+
+This release integrates with L<CGI::Application::Plugin::DevPopup>. If that 
+plugin is active, this one will add an HTML validation report. As a consequence,
+htmltidy_validate() is no longer exported, and should not be called directly.
 
 =head1 DESCRIPTION
 
@@ -164,11 +167,11 @@ it transforms your documents. HTML::Tidy communicates these options to
 libtidy through a configuration file. In the future, it may also allow
 programmatic access to all options.
 
-You can specify the configuration using cgiapp's param() method, or in 
-your instance script through the PARAM attribute. This plugin looks for 
-a parameter named htmltidy_config, whose value should be a hash ref. 
-This hash ref is then passed on directly to HTML::Tidy. Currently the only
-supported parameter is "config_file".
+You can specify the configuration using cgiapp's param() method, or in your
+instance script through the PARAM attribute, or through the htmltidy_config()
+method. This plugin looks for a parameter named htmltidy_config, whose value
+should be a hash ref.  This hash ref is then passed on directly to HTML::Tidy.
+Currently the only supported parameter is "config_file".
 
 Here's an example:
 
@@ -199,11 +202,24 @@ settings:
 
 Direct access to the underlying HTML::Tidy object.
 
+=item htmltidy_config
+
+Pass in a hash of options to configure the behaviour of this plugin. Accepted
+keys are:
+
+=over 8
+
+=item config_file
+
+The path to a config file used by tidy. See the tidy man page for details.
+
+=back
+
 =item htmltidy_validate
 
-Parses your output, and generates a detailed report if it doesn't conform
-to standards. Your original output is returned only if there were no errors
-or warnings.
+If you're using L<CGI::Application::Plugin::DevPopup>, this method is used to
+generate a report for it.It parses your output, and generates a detailed
+report if it doesn't conform to standards. 
 
 =item htmltidy_clean
 

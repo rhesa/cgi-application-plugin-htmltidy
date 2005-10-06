@@ -1,4 +1,4 @@
-CGI-Application-Plugin-HtmlTidy version 0.01
+CGI-Application-Plugin-HtmlTidy version 0.50
 ============================================
 
 NAME
@@ -6,24 +6,27 @@ NAME
     CGI::Application
 
 SYNOPSIS
-
+    
     use CGI::Application::Plugin::HtmlTidy;
 
     sub cgiapp_postrun {
         my ($self, $contentref) = @_;
 
-        # your post-process code here
+    # your post-process code here
 
-        $self->htmltidy_validate($contentref);
-        # or
         $self->htmltidy_clean($contentref);
     }
 
-WARNING
-This is the initial release. I welcome comments and discussion on the
-cgiapp mailinglist. Note that it currently depends on a developer
-release of HTML::Tidy (namely version 1.05_02). I hope to persuade its
-author to promote that release to an official one soon.
+
+    # generate a validation report
+    use CGI::Application::Plugin::DevPopup;
+    use CGI::Application::Plugin::HtmlTidy;
+
+CHANGES
+This release integrates with CGI::Application::Plugin::DevPopup. If that
+plugin is active, this one will add an HTML validation report. As a
+consequence, htmltidy_validate() is no longer exported, and should not
+be called directly.
 
 DESCRIPTION
 This plugin is a wrapper around HTML::Tidy. It exports two methods that

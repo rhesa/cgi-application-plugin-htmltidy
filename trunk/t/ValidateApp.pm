@@ -3,13 +3,8 @@ package ValidateApp;
 use strict;
 use CGI::Application;
 use base qw/CGI::Application/;
+use CGI::Application::Plugin::DevPopup;
 use CGI::Application::Plugin::HtmlTidy;
-
-## need to override this to add ht support
-sub cgiapp_postrun {
-	my ($self, $outputref) = @_;
-	$self->htmltidy_validate($outputref);
-}
 
 sub setup {
 	my $self = shift;

@@ -6,8 +6,8 @@ WriteMakefile(
     NAME              => 'CGI::Application::Plugin::HtmlTidy',
     VERSION_FROM      => 'lib/CGI/Application/Plugin/HtmlTidy.pm', # finds $VERSION
     PREREQ_PM         => {
-            CGI::Application => 3.21,
-            HTML::Tidy       => 1.05,
+            CGI::Application => 4.01,
+            HTML::Tidy       => 1.06,
         }, 
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/CGI/Application/Plugin/HtmlTidy.pm', # retrieve abstract from module

@@ -1,36 +1,19 @@
-<?xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Validation results</title>
-	<style type="text/css">
-		td			{ font-family: monospace; white-space: pre   }
-		.error		{ background-color: red; color: white; font-weight: bold;  }
-		.warning	{ background-color: yellow }
-	</style>
-</head>
-<body>
-	<h1>Validation results</h1>
-	<div>
-		The following table lists the errors and warnings in your html output.
-		The fact that you see this page means there <b>are</b> problems with it - according to tidy.<br />
-		Column 2 shows (line:column) for easier reference.
-	</div>
-	<table summary="validation results by line">
-	<tmpl_loop output>
-			<tr><td colspan="4"><tmpl_var html escape=html></td></tr>
-			<tmpl_loop messages>
-				<tr>
-					<td width="40">&nbsp;</td>
-					<td width="80" class="<tmpl_var type>"><tmpl_var type></td>
-					<td width="40" class="<tmpl_var type>"><tmpl_if line><tmpl_var line>:<tmpl_var column></tmpl_if></td>
-					<td class="<tmpl_var type>"><tmpl_var text escape=html></td>
-				</tr>
-			</tmpl_loop>
-	</tmpl_loop>
-	</table>
-</body>
-</html>
+<style type="text/css">
+    table.cap_htmltidy td			{ font-family: monospace; white-space: pre   }
+    table.cap_htmltidy td.error		{ background-color: red; color: white; font-weight: bold;  }
+    table.cap_htmltidy td.warning	{ background-color: yellow }
+</style>
+<table summary="validation results by line" class="cap_htmltidy">
+<tmpl_loop output>
+        <tr><td colspan="4"><tmpl_var html escape=html></td></tr>
+        <tmpl_loop messages>
+            <tr>
+                <td width="40">&nbsp;</td>
+                <td width="80" class="<tmpl_var type>"><tmpl_var type></td>
+                <td width="40" class="<tmpl_var type>"><tmpl_if line><tmpl_var line>:<tmpl_var column></tmpl_if></td>
+                <td class="<tmpl_var type>"><tmpl_var text escape=html></td>
+            </tr>
+        </tmpl_loop>
+</tmpl_loop>
+</table>
 
