@@ -1,12 +1,15 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         CGI-Application-Plugin-HtmlTidy
-version:      0.50
-version_from: lib/CGI/Application/Plugin/HtmlTidy.pm
-installdirs:  site
-requires:
+--- #YAML:1.0
+name:                CGI-Application-Plugin-HtmlTidy
+version:             0.51
+abstract:            Add HTML::Tidy support to CGI::Application
+license:             perl
+generated_by:        ExtUtils::MakeMaker version 6.31
+distribution_type:   module
+requires:     
     CGI::Application:              4.01
     HTML::Tidy:                    1.06
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.17
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
+    version: 1.2
+author:
+    - Rhesa Rozendaal <rhesa@cpan.org>

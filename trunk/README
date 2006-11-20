@@ -1,4 +1,4 @@
-CGI-Application-Plugin-HtmlTidy version 0.50
+CGI-Application-Plugin-HtmlTidy version 1.00
 ============================================
 
 NAME
@@ -38,7 +38,7 @@ It generates a detailed report specifying the issues with your html.
 
 The htmltidy_clean modifies your output to conform to the W3C standards.
 It has been in use for quite some time on a largish site (generating
-over 100,000 pages per day) and has proven to be quite stable and fast.
+over 3,000,000 pages per day) and has proven to be quite stable and fast.
 Every single page view was valid html, which makes many browsers happy
 :-)
 

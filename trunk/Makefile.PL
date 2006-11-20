@@ -5,6 +5,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME              => 'CGI::Application::Plugin::HtmlTidy',
     VERSION_FROM      => 'lib/CGI/Application/Plugin/HtmlTidy.pm', # finds $VERSION
+    LICENSE           => 'perl',
     PREREQ_PM         => {
             CGI::Application => 4.01,
             HTML::Tidy       => 1.06,

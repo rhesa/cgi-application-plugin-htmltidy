@@ -8,8 +8,10 @@ t/03clean.t
 t/04config.t
 t/05headertype.t
 t/06subclass.t
+t/07tmpl_load.t
 t/CleanApp.pm
 t/CleanSubApp.pm
+t/TemplateApp.pm
 t/ValidateApp.pm
 t/ValidateSubApp.pm
 t/pod.t

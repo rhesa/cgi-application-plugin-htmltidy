@@ -1,5 +1,16 @@
 Revision history for CGI-Application-Plugin-HtmlTidy
 
+1.00    2006-11-20  Rhesa Rozendaal <rhesa@cpan.org>
+    - typo fix in pod
+      (thanks to Alexander Becker)
+    - bumped version to 1.00
+    - dist improvements to conform to CPANTS
+ 
+0.51    2006-01-24  Rhesa Rozendaal <rhesa@cpan.org>
+    - htmltidy_validate now loads its template by itself to avoid
+      problems for people overriding CA::load_tmpl
+      (thanks to Alexander Becker)
+ 
 0.50    2005-10-04  Rhesa Rozendaal <rhesa@cpan.org>
     - made htmltidy_validate a report generator for CAP::DevPopup
     - API stable
