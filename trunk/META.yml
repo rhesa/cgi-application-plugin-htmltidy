@@ -1,15 +1,15 @@
 --- #YAML:1.0
 name:                CGI-Application-Plugin-HtmlTidy
-version:             0.51
+version:             1.02
 abstract:            Add HTML::Tidy support to CGI::Application
 license:             perl
-generated_by:        ExtUtils::MakeMaker version 6.31
+author:              
+    - Rhesa Rozendaal <rhesa@cpan.org>
+generated_by:        ExtUtils::MakeMaker version 6.42
 distribution_type:   module
 requires:     
     CGI::Application:              4.01
-    HTML::Tidy:                    1.06
+    HTML::Tidy:                    1.08
 meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
-    version: 1.2
-author:
-    - Rhesa Rozendaal <rhesa@cpan.org>
+    url:     http://module-build.sourceforge.net/META-spec-v1.3.html
+    version: 1.3

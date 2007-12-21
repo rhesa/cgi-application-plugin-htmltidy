@@ -30,7 +30,7 @@ $app->start_mode('header_redirect');
 $out = $app->run;
 
 unlike($out, qr/<meta name="generator" content="HTML Tidy/,  'text/js not marked');
-like  ($out, qr/302 Moved/, 'header ok');
+like  ($out, qr/302 (?:Moved|Found)/, 'header ok');
 
 $app = CleanApp->new(PARAMS=> {
                 htmltidy_config => {

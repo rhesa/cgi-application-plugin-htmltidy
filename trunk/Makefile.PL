@@ -8,7 +8,7 @@ WriteMakefile(
     LICENSE           => 'perl',
     PREREQ_PM         => {
             CGI::Application => 4.01,
-            HTML::Tidy       => 1.06,
+            HTML::Tidy       => 1.08,
         }, 
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/CGI/Application/Plugin/HtmlTidy.pm', # retrieve abstract from module

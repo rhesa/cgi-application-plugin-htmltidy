@@ -9,8 +9,10 @@ t/04config.t
 t/05headertype.t
 t/06subclass.t
 t/07tmpl_load.t
+t/08options.t
 t/CleanApp.pm
 t/CleanSubApp.pm
+t/OptionsApp.pm
 t/TemplateApp.pm
 t/ValidateApp.pm
 t/ValidateSubApp.pm
