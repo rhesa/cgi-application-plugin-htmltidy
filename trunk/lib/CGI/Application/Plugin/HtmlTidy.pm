@@ -13,7 +13,7 @@ our @ISA = qw(Exporter);
 
 our @EXPORT = qw(htmltidy htmltidy_clean htmltidy_config);
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 sub import
 {

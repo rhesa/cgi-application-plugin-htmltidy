@@ -1,5 +1,10 @@
 Revision history for CGI-Application-Plugin-HtmlTidy
 
+1.03    2007-12-22  Rhesa Rozendaal <rhesa@cpan.org>
+    - updated test01regression in response to test report
+      <http://www.nntp.perl.org/group/perl.cpan.testers/878852>.
+      Thanks!
+
 1.02    2007-12-20  Rhesa Rozendaal <rhesa@cpan.org>
     - updated tests for when DevPopup is present. The interface of
       HTML::Tidy->parse has changed (for the worse, if you ask me) in that

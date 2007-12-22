@@ -15,5 +15,5 @@ use CGI::Application::Plugin::HtmlTidy;
 can_ok($classname, qw/htmltidy htmltidy_clean htmltidy_validate/);
 
 # bundled config file
-like($classname->__find_config(), qr!blib/lib/CGI/Application/Plugin/HtmlTidy/tidy.conf!, "Find our bundled config file");
+like($classname->__find_config(), qr!CGI/Application/Plugin/HtmlTidy/tidy.conf!, "Find our bundled config file");
 
