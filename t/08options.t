@@ -12,7 +12,7 @@ my $app = OptionsApp->new;
 
 my $out = $app->run;
 like $out, qr/valid/, 'valid html';
-like $out, qr/name="generator" content="HTML Tidy/, 'tidy-mark option on';
+like $out, qr/name="generator" content="(?:HTML Tidy|tidyp)/, 'tidy-mark option on';
 like $out, qr/alt="xxx"/, 'alt-text set';
 
 my $app2 = OptionsApp->new();

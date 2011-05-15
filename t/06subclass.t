@@ -18,7 +18,7 @@ my $app = CleanSubApp->new(PARAMS=> {
         });
 my $out = $app->run;
 
-like($out, qr/<meta name="generator" content="HTML Tidy/,  'output cleaned');
+like($out, qr/<meta name="generator" content="(?:HTML Tidy|tidyp)/,  'output cleaned');
 like($out, qr!valid!, 'content ok');
 
 eval "require ValidateSubApp";

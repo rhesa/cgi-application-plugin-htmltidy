@@ -10,12 +10,12 @@ use CleanApp;
 $ENV{CGI_APP_RETURN_ONLY} = 1;
 $ENV{REQUEST_METHOD} = 'GET';
 my $app = CleanApp->new(PARAMS=> {
-		htmltidy_config => {
-			config_file => './t/tidy.conf',
-		}
-	});
+        htmltidy_config => {
+            config_file => './t/tidy.conf',
+        }
+    });
 
-like($app->run, qr/<meta name="generator" content="HTML Tidy/, 'valid html');
+like($app->run, qr/<meta name="generator" content="(?:HTML Tidy|tidyp)/, 'valid html');
 is($app->{'CGI::Application::Plugin::HtmlTidyOPTIONS'}{config_file}, './t/tidy.conf');
 
 my $app2 = CleanApp->new();

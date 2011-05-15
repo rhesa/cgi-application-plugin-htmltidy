@@ -1,10 +1,13 @@
 Revision history for CGI-Application-Plugin-HtmlTidy
 
+1.05    2011-05-16  Rhesa Rozendaal <rhesa@cpan.org>
+    - fix tests for tidyp-based HTML::Tidy
+
 1.04    2010-01-07  Rhesa Rozendaal <rhesa@cpan.org>
     - Add repository to META.yml. No code changes.
 
 1.03    2007-12-22  Rhesa Rozendaal <rhesa@cpan.org>
-    - updated test01regression in response to test report
+    - updated test/01regression in response to test report
       <http://www.nntp.perl.org/group/perl.cpan.testers/878852>.
       Thanks!
 
@@ -39,6 +42,6 @@ Revision history for CGI-Application-Plugin-HtmlTidy
     - API stable
 
 0.01    Thu Apr 21 11:48:45 2005
-	- original version; created by h2xs 1.23 with options
-		-XA -b 5.6.0 -n CGI::Application::Plugin::HtmlTidy
+    - original version; created by h2xs 1.23 with options
+        -XA -b 5.6.0 -n CGI::Application::Plugin::HtmlTidy
 
